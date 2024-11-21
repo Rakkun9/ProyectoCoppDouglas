@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Costo Total</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #0066cc;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 5px;
+            margin: 5px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #004d99;
+        }
+        .resultado, .error {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .resultado {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .grafico img {
+            max-width: 100%;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cálculo de Costo Total</h1>
+
+    <form action="/calcular" method="post">
+        <label for="costo_incremental">Costo Incremental:</label>
+        <input type="text" id="costo_incremental" name="costo_incremental" required>
+
+        <label for="costo_constante">Costo Constante:</label>
+        <input type="text" id="costo_constante" name="costo_constante" required>
+
+        <label for="costo_fijo_inicial">Costo Fijo Inicial:</label>
+        <input type="text" id="costo_fijo_inicial" name="costo_fijo_inicial" required>
+
+        <label for="unidades">Unidades:</label>
+        <input type="number" id="unidades" name="unidades" required>
+
+        <label for="margen_ganancia">Margen de Ganancia (%):</label>
+        <input type="text" id="margen_ganancia" name="margen_ganancia" required>
+
+        <button type="submit">Calcular</button>
+    </form>
+
+    <!-- Mostrar errores -->
+    {% if error %}
+    <div class="error">
+        <strong>Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    <!-- Mostrar resultados -->
+    {% if resultado %}
+    <div class="resultado">
+        <p>El costo total para producir {{ unidades }} unidades es: <strong>${{ resultado }}</strong></p>
+        <p>El precio de venta mínimo por unidad para obtener ganancias (con un margen del {{ margen_ganancia }}%) es: <strong>${{ precio_venta_minimo }}</strong></p>
+    </div>
+    {% endif %}
+
+    <!-- Mostrar gráfico -->
+    <div class="grafico">
+        <h2>Gráfico del Costo Total</h2>
+        <img src="/static/grafico.png" alt="Gráfico del Costo Total">
+    </div>
+</body>
+</html>
