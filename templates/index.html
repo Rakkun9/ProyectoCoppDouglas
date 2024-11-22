@@ -1,79 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='style/styles.css')}}">
+    <link rel="shortcut icon" href="{{url_for('static', filename='Logo.png')}}" type="image/x-icon">
     <title>Cálculo de Costo Total</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        h1 {
-            color: #0066cc;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        input[type="text"], input[type="number"] {
-            padding: 5px;
-            margin: 5px 0;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #0066cc;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #004d99;
-        }
-        .resultado, .error {
-            margin-top: 20px;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .resultado {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        .grafico img {
-            max-width: 100%;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-        }
-    </style>
 </head>
-<body>
-    <h1>Cálculo de Costo Total</h1>
 
-    <form action="/calcular" method="post">
-        <label for="costo_incremental">Costo Incremental:</label>
-        <input type="text" id="costo_incremental" name="costo_incremental" required>
+<body class="no-scroll">
+    <div id="login">
+        <img  src="/static/Logo.png" alt="">
+        <button class="log" onclick="desaparecer()">Iniciar</button>
+        <p class="version">v0.1.2</p>
+        
+    </div>
+    <div class="container">
+        <div class="mainLegend">
+            <img class="logo" src="/static/Logo.png" alt="">
+            <h1>Cálculo de Costo Total</h1>
+        </div>
+        <form action="/calcular" method="post">
+            <label for="costo_incremental">Costo Incremental:</label>
+            <input type="text" id="costo_incremental" name="costo_incremental" required>
 
-        <label for="costo_constante">Costo Constante:</label>
-        <input type="text" id="costo_constante" name="costo_constante" required>
+            <label for="costo_constante">Costo Constante:</label>
+            <input type="text" id="costo_constante" name="costo_constante" required>
 
-        <label for="costo_fijo_inicial">Costo Fijo Inicial:</label>
-        <input type="text" id="costo_fijo_inicial" name="costo_fijo_inicial" required>
+            <label for="costo_fijo_inicial">Costo Fijo Inicial:</label>
+            <input type="text" id="costo_fijo_inicial" name="costo_fijo_inicial" required>
 
-        <label for="unidades">Unidades:</label>
-        <input type="number" id="unidades" name="unidades" required>
+            <label for="unidades">Unidades:</label>
+            <input type="number" id="unidades" name="unidades" required>
 
-        <label for="margen_ganancia">Margen de Ganancia (%):</label>
-        <input type="text" id="margen_ganancia" name="margen_ganancia" required>
+            <label for="margen_ganancia">Margen de Ganancia (%):</label>
+            <input type="text" id="margen_ganancia" name="margen_ganancia" required>
 
-        <button type="submit">Calcular</button>
-    </form>
+            <button class="submit" type="submit">Calcular</button>
+        </form>
+    </div>
 
     <!-- Mostrar errores -->
     {% if error %}
@@ -85,8 +56,12 @@
     <!-- Mostrar resultados -->
     {% if resultado %}
     <div class="resultado">
-        <p>El costo total para producir {{ unidades }} unidades es: <strong>${{ resultado }}</strong></p>
-        <p>El precio de venta mínimo por unidad para obtener ganancias (con un margen del {{ margen_ganancia }}%) es: <strong>${{ precio_venta_minimo }}</strong></p>
+        <h1 class="report">REPORTE DE ANÁLISIS</h1>
+        <hr>
+        <p class="cost-title">El costo total para producir {{ unidades }} unidades es: <br> <strong>${{ resultado }}</strong></p>
+        <p class="price-title">El precio de venta mínimo por unidad para obtener ganancias <br> (con un margen del {{ margen_ganancia }}%) es:
+           <br> <strong>${{ precio_venta_minimo }}</strong>
+        </p>
     </div>
     {% endif %}
 
@@ -95,5 +70,19 @@
         <h2>Gráfico del Costo Total</h2>
         <img src="/static/grafico.png" alt="Gráfico del Costo Total">
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="{{url_for('static', filename='js/main.js')}}"></script>
 </body>
+
 </html>
