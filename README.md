@@ -1,4 +1,4 @@
- Resumen
+
 Este proyecto es una herramienta basada en Python que permite a los usuarios calcular el costo total de producción, a partir del costo marginal y el costo fijo inicial. También proporciona una interfaz web construida con Flask, lo que permite a los usuarios ingresar valores de manera interactiva y visualizar representaciones gráficas de sus datos de costos. Además, la aplicación puede sugerir un precio de venta para lograr un margen de ganancia específico basado en los costos calculados.
 
 Características
