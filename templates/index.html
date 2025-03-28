@@ -1,76 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="{{url_for('static', filename='style/styles.css')}}">
-    <link rel="shortcut icon" href="{{url_for('static', filename='Logo.png')}}" type="image/x-icon">
-    <title>Cálculo de Costo Total</title>
-</head>
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='style/styles.css')}}"
+    />
+    <link
+      rel="shortcut icon"
+      href="{{url_for('static', filename='Logo.png')}}"
+      type="image/x-icon"
+    />
+    <title>Función de Producción Cobb-Douglas</title>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f5f5f5;
+        color: #333;
+      }
+      .main-content {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .container {
+        width: 100%;
+        padding: 25px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        box-sizing: border-box;
+      }
+      .mainLegend {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .logo {
+        height: 80px;
+        margin-bottom: 10px;
+      }
+      h1 {
+        color: #14181b;
+        margin: 0;
+        font-size: 24px;
+      }
+      h2 {
+        color: #14181b;
+        margin-top: 0;
+      }
+      form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: 14px;
+        color: #14181b;
+      }
+      input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+      }
+      button {
+        grid-column: span 2;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+        margin-top: 10px;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      .error {
+        color: #e74c3c;
+        padding: 15px;
+        border: 1px solid #e74c3c;
+        border-radius: 4px;
+        background-color: #fadbd8;
+        margin-bottom: 20px;
+      }
+      .resultado {
+        padding: 20px;
+        background-color: #eaf2f8;
+        border-radius: 8px;
+        margin-top: 0;
+      }
+      .report {
+        text-align: center;
+        color: #2c3e50;
+        margin-top: 0;
+      }
+      .grafico {
+        text-align: center;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .grafico img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #eee;
+        border-radius: 4px;
+      }
+      .info-box {
+        display: block;
+        margin: 20px 0;
+        padding: 15px;
+        background-color: #e8f8f5;
+        border-left: 4px solid #1abc9c;
+        border-radius: 0 4px 4px 0;
+        position: static !important;
+        float: none !important;
+        clear: both;
+        overflow: hidden;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .info-box ul {
+        margin: 10px 0;
+        padding-left: 20px;
+      }
+      .info-box li {
+        margin-bottom: 5px;
+      }
+      hr {
+        border: 0;
+        height: 1px;
+        background-color: #ddd;
+        margin: 15px 0;
+      }
+      .result-item {
+        margin-bottom: 10px;
+      }
+      .result-item strong {
+        display: inline-block;
+        min-width: 250px;
+      }
+      .form-container {
+        position: relative;
+      }
+    </style>
+  </head>
 
-<body class="no-scroll">
-    <div id="login">
-        <img  src="/static/Logo.png" alt="">
-        <button class="log" onclick="desaparecer()">Iniciar</button>
-        <p class="version">v0.1.2</p>
-        
-    </div>
-    <div class="container">
+  <body>
+    <div class="main-content">
+      <!-- Contenedor del formulario -->
+      <div class="container form-container">
         <div class="mainLegend">
-            <img class="logo" src="/static/Logo.png" alt="">
-            <h1>Cálculo de Costo Total</h1>
+          <h1>Función de Producción Cobb-Douglas</h1>
         </div>
+
+        <div class="info-box">
+          <p>
+            La función de producción Cobb-Douglas tiene la forma:
+            <strong>Q = A × L<sup>α</sup> × K<sup>β</sup></strong>
+          </p>
+          <p>Donde:</p>
+          <ul>
+            <li><strong>Q</strong>: Producción total</li>
+            <li><strong>A</strong>: Factor de productividad total</li>
+            <li><strong>L</strong>: Factor trabajo (input laboral)</li>
+            <li><strong>K</strong>: Factor capital (input capital)</li>
+            <li><strong>α</strong>: Elasticidad de producción del trabajo</li>
+            <li><strong>β</strong>: Elasticidad de producción del capital</li>
+          </ul>
+        </div>
+
         <form action="/calcular" method="post">
-            <label for="costo_incremental">Costo Incremental:</label>
-            <input type="text" id="costo_incremental" name="costo_incremental" required>
+          <div>
+            <label for="A">Factor de Productividad (A):</label>
+            <input
+              type="text"
+              id="A"
+              name="A"
+              required
+              value="{% if A %}{{ A }}{% else %}1{% endif %}"
+            />
+          </div>
 
-            <label for="costo_constante">Costo Constante:</label>
-            <input type="text" id="costo_constante" name="costo_constante" required>
+          <div>
+            <label for="L">Trabajo (L):</label>
+            <input
+              type="text"
+              id="L"
+              name="L"
+              required
+              value="{% if L %}{{ L }}{% else %}10{% endif %}"
+            />
+          </div>
 
-            <label for="costo_fijo_inicial">Costo Fijo Inicial:</label>
-            <input type="text" id="costo_fijo_inicial" name="costo_fijo_inicial" required>
+          <div>
+            <label for="K">Capital (K):</label>
+            <input
+              type="text"
+              id="K"
+              name="K"
+              required
+              value="{% if K %}{{ K }}{% else %}10{% endif %}"
+            />
+          </div>
 
-            <label for="unidades">Unidades:</label>
-            <input type="number" id="unidades" name="unidades" required>
+          <div>
+            <label for="alpha">Elasticidad Trabajo (α):</label>
+            <input
+              type="text"
+              id="alpha"
+              name="alpha"
+              required
+              value="{% if alpha %}{{ alpha }}{% else %}0.75{% endif %}"
+            />
+          </div>
 
-            <label for="margen_ganancia">Margen de Ganancia (%):</label>
-            <input type="text" id="margen_ganancia" name="margen_ganancia" required>
+          <div>
+            <label for="beta">Elasticidad Capital (β):</label>
+            <input
+              type="text"
+              id="beta"
+              name="beta"
+              required
+              value="{% if beta %}{{ beta }}{% else %}0.25{% endif %}"
+            />
+          </div>
 
-            <button class="submit" type="submit">Calcular</button>
+          <button type="submit">Calcular</button>
         </form>
-    </div>
+      </div>
 
-    <!-- Mostrar errores -->
-    {% if error %}
-    <div class="error">
-        <strong>Error:</strong> {{ error }}
-    </div>
-    {% endif %}
+      <!-- Mostrar errores -->
+      {% if error %}
+      <div class="container error"><strong>Error:</strong> {{ error }}</div>
+      {% endif %}
 
-    <!-- Mostrar resultados -->
-    {% if resultado %}
-    <div class="resultado">
-        <h1 class="report">REPORTE DE ANÁLISIS</h1>
-        <hr>
-        <p class="cost-title">El costo total para producir {{ unidades }} unidades es: <br> <strong>${{ resultado }}</strong></p>
-        <p class="price-title">El precio de venta mínimo por unidad para obtener ganancias <br> (con un margen del {{ margen_ganancia }}%) es:
-           <br> <strong>${{ precio_venta_minimo }}</strong>
-        </p>
-    </div>
-    {% endif %}
+      <!-- Mostrar resultados -->
+      {% if produccion_total %}
+      <div class="container resultado">
+        <h1 class="report">RESULTADOS DE LA FUNCIÓN COBB-DOUGLAS</h1>
+        <hr />
+        <div class="result-item">
+          <strong>Producción total (Q):</strong> {{ produccion_total|round(2) }}
+        </div>
+        <div class="result-item">
+          <strong>Productividad Marginal del Trabajo (PML):</strong> {{
+          PML|round(4) }}
+        </div>
+        <div class="result-item">
+          <strong>Productividad Marginal del Capital (PMK):</strong> {{
+          PMK|round(4) }}
+        </div>
+        <div class="result-item">
+          <strong>Rendimientos a escala (α + β):</strong> {{
+          rendimientos|round(2) }} ({{ tipo_rendimientos }})
+        </div>
 
-    <!-- Mostrar gráfico -->
-    <div class="grafico">
-        <h2>Gráfico del Costo Total</h2>
-        <img src="/static/grafico.png" alt="Gráfico del Costo Total">
-    </div>
-    <script src="{{url_for('static', filename='js/main.js')}}"></script>
-</body>
+        <div class="info-box">
+          <p><strong>Parámetros utilizados:</strong></p>
+          <ul>
+            <li>A = {{ A }}</li>
+            <li>L = {{ L }}</li>
+            <li>K = {{ K }}</li>
+            <li>α = {{ alpha }}</li>
+            <li>β = {{ beta }}</li>
+          </ul>
+        </div>
+      </div>
 
+      <!-- Mostrar gráfico -->
+      <div class="container grafico">
+        <h2>Gráficos de la Función de Producción</h2>
+        <img
+          src="/static/grafico.png"
+          alt="Gráficos de la función Cobb-Douglas"
+        />
+      </div>
+      {% endif %}
+    </div>
+  </body>
 </html>
